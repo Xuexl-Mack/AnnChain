@@ -339,7 +339,8 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 
 	case reflect.Int64:
 		if opts.Varint {
-			num := ReadVarint(r, n, err)
+			//num := ReadVarint(r, n, err)
+			num := ReadInt64(r, n, err)
 			//log.Info("Read num", "num", num, "n", *n)
 			rv.SetInt(int64(num))
 		} else {
@@ -370,7 +371,8 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 
 	case reflect.Uint64:
 		if opts.Varint {
-			num := ReadVarint(r, n, err)
+			//num := ReadVarint(r, n, err)
+			num := ReadInt64(r, n, err)
 			//log.Info("Read num", "num", num, "n", *n)
 			rv.SetUint(uint64(num))
 		} else {

@@ -324,6 +324,7 @@ func ReadVarint(r io.Reader, n *int, err *error) int {
 		negate = true
 		size = size & 0x0F
 	}
+
 	if size > 8 {
 		setFirstErr(err, errors.New("Varint overflow"))
 		return 0
