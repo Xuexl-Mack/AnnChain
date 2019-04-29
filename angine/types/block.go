@@ -27,7 +27,7 @@ import (
 	"github.com/dappledger/AnnChain/ann-module/lib/go-wire"
 )
 
-const MaxBlockSize = 22020096 // 21MB TODO make it configurable
+const MaxBlockSize = 67108864 // 64MB TODO make it configurable
 
 type Block struct {
 	*Header    `json:"header"`

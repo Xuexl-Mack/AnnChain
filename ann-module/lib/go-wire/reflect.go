@@ -18,6 +18,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"reflect"
 	"strings"
@@ -202,6 +203,8 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 	// Get typeInfo
 	typeInfo := GetTypeInfo(rt)
 
+	fmt.Println(typeInfo.Type.Name())
+
 	if rt.Kind() == reflect.Interface {
 		if !typeInfo.IsRegisteredInterface {
 			// There's no way we can read such a thing.
@@ -294,6 +297,7 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 		} else {
 			var sliceRv reflect.Value
 			// Read length
+			//fmt.Println("===slice==")
 			length := ReadVarint(r, n, err)
 			//log.Info("Read slice", "length", length, "n", *n)
 			sliceRv = reflect.MakeSlice(rt, 0, 0)
@@ -339,8 +343,8 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 
 	case reflect.Int64:
 		if opts.Varint {
-			//num := ReadVarint(r, n, err)
-			num := ReadInt64(r, n, err)
+			//fmt.Println("===int64==")
+			num := ReadVarint(r, n, err)
 			//log.Info("Read num", "num", num, "n", *n)
 			rv.SetInt(int64(num))
 		} else {
@@ -365,14 +369,15 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 		rv.SetInt(int64(num))
 
 	case reflect.Int:
+		//fmt.Println("===int==")
 		num := ReadVarint(r, n, err)
 		//log.Info("Read num", "num", num, "n", *n)
 		rv.SetInt(int64(num))
 
 	case reflect.Uint64:
 		if opts.Varint {
-			//num := ReadVarint(r, n, err)
-			num := ReadInt64(r, n, err)
+			//fmt.Println("===uint64==")
+			num := ReadVarint(r, n, err)
 			//log.Info("Read num", "num", num, "n", *n)
 			rv.SetUint(uint64(num))
 		} else {

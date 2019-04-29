@@ -63,7 +63,7 @@ func (part *Part) StringIndented(indent string) string {
 %s  Proof: %v
 %s}`,
 		part.Index,
-		indent, Fingerprint(part.Bytes),
+		indent /*Fingerprint(part.Bytes)*/, part.Bytes,
 		indent, part.Proof.StringIndented(indent+"  "),
 		indent)
 }
