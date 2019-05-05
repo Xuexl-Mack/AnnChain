@@ -189,7 +189,19 @@ func readReflectBinary(rv reflect.Value, rt reflect.Type, opts Options, r io.Rea
 	// Get typeInfo
 	typeInfo := GetTypeInfo(rt)
 
-	fmt.Println(typeInfo.Type.Name())
+	defer func() {
+
+		if *err != nil {
+
+			fmt.Println(typeInfo.Type.Name())
+
+			fmt.Println((*err).Error(), rt.Kind())
+
+			if rt.Kind() == reflect.Slice {
+				fmt.Println("elem type:", rt.Elem().Kind())
+			}
+		}
+	}()
 
 	if rt.Kind() == reflect.Interface {
 		if !typeInfo.IsRegisteredInterface {

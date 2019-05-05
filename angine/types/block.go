@@ -57,6 +57,7 @@ func MakeBlock(height int, chainID string, alltxs []Tx, commit *Commit,
 	for _, tx := range alltxs {
 		if IsSpecialOP(tx) {
 			extxs = append(extxs, tx)
+			fmt.Println("extx:", tx, string(tx))
 		} else {
 			txs = append(txs, tx)
 		}

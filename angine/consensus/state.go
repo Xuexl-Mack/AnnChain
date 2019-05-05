@@ -19,6 +19,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"reflect"
 	"sync"
 	"time"
@@ -1382,7 +1383,13 @@ func (cs *ConsensusState) addProposalBlockPart(height int, part *types.Part, ver
 
 		cs.ProposalBlock = wire.ReadBinary(&types.Block{}, cs.ProposalBlockParts.GetReader(), types.MaxBlockSize, &n, &err).(*types.Block)
 		// NOTE: it's possible to receive complete proposal blocks for future rounds without having the proposal
-		fmt.Println(cs.ProposalBlock.String())
+
+		if err != nil {
+			fmt.Println(cs.ProposalBlock.String())
+			dat, err := ioutil.ReadAll(cs.ProposalBlockParts.GetReader())
+			fmt.Println(dat, err)
+		}
+
 		cs.logger.Info("Received complete proposal block", zap.Int("height", cs.ProposalBlock.Height), zap.String("hash", Fmt("%X", cs.ProposalBlock.Hash())))
 		if cs.Step == RoundStepPropose && cs.isProposalComplete() {
 			// Move onto the next step
